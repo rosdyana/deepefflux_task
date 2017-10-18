@@ -2,45 +2,66 @@ import numpy
 import mxnet as mx
 import sys
 
+def biggest(a, b, c):
+    Max = a
+    result = 1
+    if b > Max:
+        Max = b
+        result =2
+    if c > Max:
+        Max = c
+        result = 3
+        if b > c:
+            Max = c
+            result = 3
+    return Max[0],result
+#################################################################################
 # pre trained model path
-model_path = sys.argv[1]
-model_path_class_1 = ''.join(model_path,"model_1")
-model_path_class_2 = ''.join(model_path,"model_2")
-model_path_class_3 = ''.join(model_path,"model_3")
+model_path_class_1 = "model/class1model"
+model_path_class_2 = "model/class2model"
+model_path_class_3 = "model/class3model"
 
 # args i/o
-input_test = sys.argv[2]
-output_file = sys.argv[3]
+input_test = sys.argv[1]
+output_file = sys.argv[2]
 
 # iteration
 num_round = 1
-
+#################################################################################
 # load testing dataset
-batch = numpy.loadtxt(input_test, ndmin = 2, delimiter=","))
-
+data = np.loadtxt(input_test, ndmin = 2, delimiter=",")
+X1 = data[:,0:400].reshape(len(data),1,20,20)
+#################################################################################
 # load model 1
-model_1 = mx.model.FeedFoward.load(prefix=model_path_class_1, iteration=num_round)
+model_1 = mx.model.FeedForward.load(prefix=model_path_class_1, epoch=num_round)
 
 # predict model 1
-pred_1 = model_1.predict(batch)
+pred_1 = model_1.predict(X1,num_round)
+pred_1 = pred_1[:,0]
+#print("class1 : {}".format(pred_1))
 
+#################################################################################
 # load model 2
-model_2 = mx.model.FeedFoward.load(prefix=model_path_class_1, iteration=num_round)
+model_2 = mx.model.FeedForward.load(prefix=model_path_class_2, epoch=num_round)
 
 # predict model 2
-pred_2 = model_2.predict(batch)
+pred_2 = model_2.predict(X1,num_round)
+pred_2 = pred_2[:,0]
+#print("class2 : {}".format(pred_2))
 
+#################################################################################
 # load model 3
-model_3 = mx.model.FeedFoward.load(prefix=model_path_class_1, iteration=num_round)
+model_3 = mx.model.FeedForward.load(prefix=model_path_class_3, epoch=num_round)
 
 # predict model 3
-pred_3 = model_3.predict(batch)
-
-# compare the highest acc.
-
-output = np_utils.categorical_probas_to_classes(predictions)
+pred_3 = model_3.predict(X1,num_round)
+pred_3 = pred_3[:,0]
+#print("class3 : {}".format(pred_3))
+#################################################################################
+acc, family = biggest(pred_1,pred_2,pred_3)
+print("result : family class {} with acc {}".format(family,acc))
 f = open(output_file,'w')
-for x in output:
-    f.write(str(x) + '\n')
+f.write(str(family) + '\n')
+f.write(str(acc) + '\n')
 f.close()
 print("Result saved.")

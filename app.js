@@ -84,9 +84,6 @@ function predict(id,next){
 	predict: function(callback) {
       process.stdout.write('> Predicting:\t\t\t');
       var ps = require('child_process').spawn(config.python_path,[
-        config.root_path + 'model.py',
-		config.root_path + 'model.json',
-		config.root_path + 'model.h5',
 		config.root_path + 'data.csv',
 		config.root_path + 'data.out'
       ]);
@@ -107,10 +104,11 @@ function predict(id,next){
 	updateDB: function(callback){
       fs.readFile(config.root_path + 'data.out','utf8',function (err,data) {
         if (err)  return callback(err); else {
-          var rs = data[0];
-          process.stdout.write('> Result:\t\t\t' + rs + '\n');
+          var familia = data[0];
+		  var acc = data[1];
+          process.stdout.write('> Result:\t\t\t' + familia + 'acc : '+ acc + '\n');
           process.stdout.write('> Saving:\t\t\t');
-          db('proteins').where('id',id).update({class:rs}).then(function () {
+          db('proteins').where('id',id).update({class:familia, acc:acc}).then(function () {
             async.each(['data.fasta','data.pssm','data.csv','data.out','error.log'],function(file, call) {
              fs.unlink(config.root_path + file,function () { call() })
             }, function(err) {
