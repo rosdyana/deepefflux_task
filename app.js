@@ -106,8 +106,10 @@ function predict(id,next){
       fs.readFile(config.root_path + 'data.out','utf8',function (err,data) {
         if (err)  return callback(err); else {
           var familia = data[0];
-		  var acc = data[1];
-          process.stdout.write('> Result:\t\t\t' + familia + 'acc : '+ acc + '\n');
+          var acc = data[1];
+          process.stdout.write('> data:\t\t\t' + data + '\n');
+          process.stdout.write('> family:\t\t\t' + familia + '\n');
+          process.stdout.write('> acc:\t\t\t '+ acc + '\n');
           process.stdout.write('> Saving:\t\t\t');
           db('proteins').where('id',id).update({class:familia, acc:acc}).then(function () {
             async.each(['data.fasta','data.pssm','data.csv','data.out','error.log'],function(file, call) {
