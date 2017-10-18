@@ -84,8 +84,9 @@ function predict(id,next){
 	predict: function(callback) {
       process.stdout.write('> Predicting:\t\t\t');
       var ps = require('child_process').spawn(config.python_path,[
-		config.root_path + 'data.csv',
-		config.root_path + 'data.out'
+        config.root_path + 'model.py',
+        config.root_path + 'data.csv',
+        config.root_path + 'data.out'
       ]);
       ps.stdout.on('data', (data) => {
         if (process.argv.indexOf('-v')!==-1)
