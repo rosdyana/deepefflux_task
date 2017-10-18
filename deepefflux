@@ -71,24 +71,6 @@ export NODE_PATH=$NODE_PATH
 
 start() {
     echo "Starting $NAME"
-    # We're calling forever directly without using start-stop-daemon for the
-    # sake of simplicity when it comes to environment, and because this way
-    # the script will work whether it is executed directly or via the service
-    # utility.
-    #
-    # The minUptime and spinSleepTime settings stop Forever from thrashing if
-    # the application fails immediately on launch. This is generally necessary to
-    # avoid loading development servers to the point of failure every time
-    # someone makes an error in application initialization code, or bringing down
-    # production servers the same way if a database or other critical service
-    # suddenly becomes inaccessible.
-    #
-    # The pidfile contains the child process pid, not the forever process pid.
-    # We're only using it as a marker for whether or not the process is
-    # running.
-    #
-    # Note that redirecting the output to /dev/null (or anywhere) is necessary
-    # to make this script work if provisioning the service via Chef.
     forever \
       --pidFile $PIDFILE \
       -a \
@@ -102,9 +84,7 @@ start() {
 stop() {
     if [ -f $PIDFILE ]; then
         echo "Shutting down $NAME"
-        # Tell Forever to stop the process.
         forever stop $APPLICATION_PATH 2>&1 > /dev/null
-        # Get rid of the pidfile, since Forever won't do that.
         rm -f $PIDFILE
         RETVAL=$?
     else
@@ -119,18 +99,6 @@ restart() {
 }
  
 status() {
-    # On Ubuntu this isn't even necessary. To find out whether the service is
-    # running, use "service my-application status" which bypasses this script
-    # entirely provided you used the service utility to start the process.
-    #
-    # The commented line below is the obvious way of checking whether or not a
-    # process is currently running via Forever, but in recent Forever versions
-    # when the service is started during Chef provisioning a dead pipe is left
-    # behind somewhere and that causes an EPIPE exception to be thrown.
-    # forever list | grep -q "$APPLICATION_PATH"
-    #
-    # So instead we add an extra layer of indirection with this to bypass that
-    # issue.
     echo `forever list` | grep -q "$APPLICATION_PATH"
     if [ "$?" -eq "0" ]; then
         echo "$NAME is running."
