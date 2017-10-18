@@ -16,7 +16,7 @@
 # service devshelf <command (start|stop|etc)>
 
 NAME=deepefflux                            # Unique name for the application
-SOUREC_DIR=/home/ros/deepefflux;           # Location of the application source
+SOUREC_DIR=/home/ros/deepefflux_task;           # Location of the application source
 COMMAND=node                             # Command to run
 SOURCE_NAME=app.js                       # Name os the applcation entry point script
 USER=ros                                # User for process running
