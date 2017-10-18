@@ -1,7 +1,7 @@
 {
   "host": "localhost",
   "web": "http://bio216.bioinfo.yzu.edu.tw/deepefflux/finish/",
-  "socket_port": 3000,
+  "socket_port": 1337,
   "root_path": "/home/ros/deepefflux_task/",
 
   "blast_path": "psiblast",
