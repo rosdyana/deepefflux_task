@@ -53,7 +53,7 @@
 # Forever settings to prevent the application spinning if it fails on launch.
 # MIN_UPTIME="5000"
 # SPIN_SLEEP_TIME="2000"
- 
+
 env NODE_BIN_DIR="/usr/local/bin"
 env NODE_PATH="/home/ros/deepefflux_task/node_modules"
 env APPLICATION_PATH="/home/ros/deepefflux_task/app.js"
@@ -61,14 +61,14 @@ env PIDFILE="var/run/deepefflux.pid"
 env LOG="/var/log/deepefflux.log"
 env MIN_UPTIME="5000"
 env SPIN_SLEEP_TIME="2000"
- 
+
 # Add node to the path for situations in which the environment is passed.
 PATH=$NODE_BIN_DIR:$PATH
 # Export all environment variables that must be visible for the Node.js
 # application process forked by Forever. It will not see any of the other
 # variables defined in this script.
 export NODE_PATH=$NODE_PATH
- 
+
 start() {
     echo "Starting $NAME"
     # We're calling forever directly without using start-stop-daemon for the
@@ -98,7 +98,7 @@ start() {
       start $APPLICATION_PATH 2>&1 > /dev/null &
     RETVAL=$?
 }
- 
+
 stop() {
     if [ -f $PIDFILE ]; then
         echo "Shutting down $NAME"
