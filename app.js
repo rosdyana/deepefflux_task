@@ -31,7 +31,7 @@ function predict(id,next){
   async.series({
     get_data: function(callback) {
       process.stdout.write('> Checking DB:\t\t\t');
-      db('proteins').where('id',id).select('name','data','class').first().then(function (fasta) {
+      db('proteins').where('id',id).select('name','data','class','acc').first().then(function (fasta) {
         process.stdout.write('Done\n');
         process.stdout.write('> Protein name:\t\t\t'+fasta.name + '\n');
         if (fasta.class !== '') {
