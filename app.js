@@ -50,7 +50,7 @@ function predict(id,next){
       process.stdout.write('> Converting to PSSM:\t\t');
       var ps = require('child_process').spawn(config.blast_path,[
         '-db', config.blast_db_path,
-        '-num_iterations', 2,
+        '-num_iterations', 1,
         '-in_msa', config.root_path + 'data.fasta',
         '-out_ascii_pssm', config.root_path + 'data.pssm'
       ]);
@@ -148,7 +148,7 @@ function doTask(task,next) {
       var end = moment().format("YYYY-MM-DD HH:mm:ss");;
       db('tasks').where('id',task.id).update({status:'done', start_time: start, finish_time: end }).then(function () {
         process.stdout.write('>>> FINISH TASK #' + task.id +'\n');
-        https.get(config.web + task.id, function(res) {
+        http.get(config.web + task.id, function(res) {
           var rs = '';
           res.on('data', (data) => {
             rs+=data;
