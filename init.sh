@@ -1,2 +1,2 @@
 #!/bin/bash
-nodejs /home/khanh/etcnn/app.js -v
+nodejs /home/ros/deepefflux_task/app.js -v
