@@ -106,7 +106,7 @@ function predict(id,next){
       fs.readFile(config.root_path + 'data.out','utf8',function (err,data) {
         if (err)  return callback(err); else {
           var familia = data[0];
-          var probability = data[1];
+          var probability = data[2];
           process.stdout.write('> data:\t\t\t' + data + '\n');
           process.stdout.write('> family:\t\t\t' + familia + '\n');
           process.stdout.write('> acc:\t\t\t '+ probability + '\n');
