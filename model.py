@@ -4,16 +4,16 @@ import sys
 
 def biggest(a, b, c):
     Max = a
-    result = 1
+    result = "1"
     if b > Max:
         Max = b
-        result =2
+        result = "2"
     if c > Max:
         Max = c
-        result = 3
+        result = "3"
         if b > c:
-            Max = c
-            result = 3
+            Max = b
+            result = "2"
     return Max[0],result
 #################################################################################
 # pre trained model path
