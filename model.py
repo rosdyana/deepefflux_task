@@ -14,7 +14,7 @@ def biggest(a, b, c):
         if b > c:
             Max = b
             result = "B"
-    return Max,result
+    return Max[0],result
 #################################################################################
 # pre trained model path
 model_path_class_1 = "model/class1model"
