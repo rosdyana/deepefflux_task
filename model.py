@@ -4,17 +4,17 @@ import sys
 
 def biggest(a, b, c):
     Max = a
-    result = "1"
+    result = "A"
     if b > Max:
         Max = b
-        result = "2"
+        result = "B"
     if c > Max:
         Max = c
-        result = "3"
+        result = "C"
         if b > c:
             Max = b
-            result = "2"
-    return Max[0],result
+            result = "B"
+    return Max,result
 #################################################################################
 # pre trained model path
 model_path_class_1 = "model/class1model"
@@ -62,6 +62,6 @@ acc, family = biggest(pred_1,pred_2,pred_3)
 print("result : family class {} with acc {}".format(family,acc))
 f = open(output_file,'w')
 f.write(str(family) + '\n')
-f.write(str(acc) + '\n')
+f.write(str(acc*100) + '\n')
 f.close()
 print("Result saved.")
