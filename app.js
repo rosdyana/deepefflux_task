@@ -107,9 +107,10 @@ function predict(id,next){
 	updateDB: function(callback){
       fs.readFile(config.root_path + 'data.out','utf8',function (err,data) {
         if (err)  return callback(err); else {
-          var familia_a = data[0];
-          var familia_b = data[2];
-          var familia_c = data[4];
+          var result = data.split(",")
+          var familia_a = result[0];
+          var familia_b = result[1];
+          var familia_c = result[2];
           process.stdout.write('> data:\t\t\t' + data + '\n');
           process.stdout.write('> class_a:\t\t\t' + familia_a + '\n');
           process.stdout.write('> class_b:\t\t\t '+ familia_b + '\n');
