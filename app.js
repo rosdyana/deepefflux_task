@@ -34,8 +34,10 @@ function predict(id,next){
       db('proteins').where('id',id).select('name','data','class_a','class_b','class_c').first().then(function (fasta) {
         process.stdout.write('Done\n');
         process.stdout.write('> Protein name:\t\t\t'+fasta.name + '\n');
-        if (fasta.class !== '') {
-          process.stdout.write('> Proteins already predicted.\n> Result: ' + fasta.class);
+        if (fasta.class_a !=='' && fasta.class_b !='' && fasta.class_c !='') {
+          process.stdout.write('> Proteins already predicted.\n> Familia A: ' + fasta.class_a);
+          process.stdout.write('> Proteins already predicted.\n> Familia B: ' + fasta.class_b);
+          process.stdout.write('> Proteins already predicted.\n> Familia C: ' + fasta.class_c);
           callback(1);
         } else {
           process.stdout.write('> Preparing for conversion:\t');
