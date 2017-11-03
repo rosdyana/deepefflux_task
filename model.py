@@ -2,19 +2,19 @@ import numpy as np
 import mxnet as mx
 import sys
 
-def biggest(a, b, c):
-    Max = a
-    result = "A"
-    if b > Max:
-        Max = b
-        result = "B"
-    if c > Max:
-        Max = c
-        result = "C"
-        if b > c:
-            Max = b
-            result = "B"
-    return Max[0],result
+# def biggest(a, b, c):
+#     Max = a
+#     result = "A"
+#     if b > Max:
+#         Max = b
+#         result = "B"
+#     if c > Max:
+#         Max = c
+#         result = "C"
+#         if b > c:
+#             Max = b
+#             result = "B"
+#     return Max[0],result
 #################################################################################
 # pre trained model path
 model_path_class_1 = "model/class1model"
@@ -58,10 +58,11 @@ pred_3 = model_3.predict(X1,num_round)
 pred_3 = pred_3[:,1]
 print("class3 : {}".format(pred_3))
 #################################################################################
-acc, family = biggest(pred_1,pred_2,pred_3)
-print("result : family class {} with acc {}".format(family,acc))
+#acc, family = biggest(pred_1,pred_2,pred_3)
+print("result : \n family class a : {} \n family class b : {} \n family class c : {}".format(pred_1*100, pred_2*100, pred_3*100))
 f = open(output_file,'w')
-f.write(str(family) + '\n')
-f.write(str(acc*100) + '\n')
+f.write(str(pred_1*100) + '\n')
+f.write(str(pred_2*100) + '\n')
+f.write(str(pred_3*100) + '\n')
 f.close()
 print("Result saved.")
