@@ -31,7 +31,7 @@ function predict(id,next){
   async.series({
     get_data: function(callback) {
       process.stdout.write('> Checking DB:\t\t\t');
-      db('proteins').where('id',id).select('name','data','class_a','class_b','class_c').first().then(function (fasta) {
+      db('proteins').where('id',id).select('name','data','class_a','class_b','class_c','type').first().then(function (fasta) {
         process.stdout.write('Done\n');
         process.stdout.write('> Protein name:\t\t\t'+fasta.name + '\n');
         if (fasta.class_a !=='' && fasta.class_b !='' && fasta.class_c !='') {
@@ -111,12 +111,14 @@ function predict(id,next){
           var familia_a = result[0];
           var familia_b = result[1];
           var familia_c = result[2];
+          var type_of_familia = result[3];
           process.stdout.write('> data:\t\t\t' + data + '\n');
           process.stdout.write('> class_a:\t\t\t' + familia_a + '\n');
           process.stdout.write('> class_b:\t\t\t '+ familia_b + '\n');
           process.stdout.write('> class_c:\t\t\t '+ familia_c + '\n');
+          process.stdout.write('> type:\t\t\t '+ type_of_familia + '\n');
           process.stdout.write('> Saving:\t\t\t');
-          db('proteins').where('id',id).update({class_a:familia_a, class_b:familia_b, class_c:familia_c}).then(function () {
+          db('proteins').where('id',id).update({class_a:familia_a, class_b:familia_b, class_c:familia_c, type:type_of_familia}).then(function () {
             async.each(['data.fasta','data.pssm','data.csv','data.out','error.log'],function(file, call) {
              fs.unlink(config.root_path + file,function () { call() })
             }, function(err) {

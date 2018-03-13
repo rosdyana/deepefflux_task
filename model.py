@@ -2,19 +2,19 @@ import numpy as np
 import mxnet as mx
 import sys
 
-# def biggest(a, b, c):
-#     Max = a
-#     result = "A"
-#     if b > Max:
-#         Max = b
-#         result = "B"
-#     if c > Max:
-#         Max = c
-#         result = "C"
-#         if b > c:
-#             Max = b
-#             result = "B"
-#     return Max[0],result
+def getType(a, b, c):
+    Max = a
+    result = 1
+    if b > Max:
+        Max = b
+        result = 2
+    if c > Max:
+        Max = c
+        result = 3
+        if b > c:
+            Max = b
+            result = 2
+    return result
 #################################################################################
 # pre trained model path
 model_path_class_1 = "model/class1model"
@@ -58,9 +58,9 @@ pred_3 = model_3.predict(X1,num_round)
 pred_3 = pred_3[:,1]
 print("class3 : {}".format(pred_3))
 #################################################################################
-#acc, family = biggest(pred_1,pred_2,pred_3)
-print("result : \n family class a : {} \n family class b : {} \n family class c : {}".format(pred_1[0]*100, pred_2[0]*100, pred_3[0]*100))
+family = getType(pred_1,pred_2,pred_3)
+print("result : \n family class a : {} \n family class b : {} \n family class c : {} \n class : {}".format(pred_1[0]*100, pred_2[0]*100, pred_3[0]*100,family))
 f = open(output_file,'w')
-f.write(str(round(pred_1[0],10)) + ',' + str(round(pred_2[0],10)) + ',' + str(round(pred_3[0],10)))
+f.write(str(round(pred_1[0],10)) + ',' + str(round(pred_2[0],10)) + ',' + str(round(pred_3[0],10)) + ',' + int(family))
 f.close()
 print("Result saved.")
