@@ -105,7 +105,11 @@ function predict(id,next){
       });
     },
 	updateDB: function(callback){
+	process.stdout.write('> update db\t\t\t');
       fs.readFile(config.root_path + 'data.out','utf8',function (err,data) {
+	process.stdout.write(data+'\n');
+	process.stdout.write(err+'\n');
+	console.log(data);
         if (err)  return callback(err); else {
           var result = data.split(",")
           var familia_a = result[0];
