@@ -19,7 +19,7 @@
   "dependencies": {
     "async": "^2.5.0",
     "knex": "^0.13.0",
-    "moment": "^2.19.1",
+    "moment": "^2.19.3",
     "mysql": "^2.15.0",
     "socketio": "^1.0.0"
   },
